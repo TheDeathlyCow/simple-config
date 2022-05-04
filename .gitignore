@@ -1,3 +1,17 @@
-/target/*
-/docs/*
-/.idea/*
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# macos
+
+*.DS_Store
+
+# maven
+
+target/
+
+# custom
+docs/

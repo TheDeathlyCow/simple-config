@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.simple.config;
 
-import com.github.thedeathlycow.simple.config.key.ConfigEntry;
+import com.github.thedeathlycow.simple.config.entry.ConfigEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;

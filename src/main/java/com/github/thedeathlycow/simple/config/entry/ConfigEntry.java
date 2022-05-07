@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.simple.config.key;
+package com.github.thedeathlycow.simple.config.entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

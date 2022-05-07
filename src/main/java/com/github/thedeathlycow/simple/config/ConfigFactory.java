@@ -1,8 +1,7 @@
 package com.github.thedeathlycow.simple.config;
 
-import com.github.thedeathlycow.simple.config.key.ConfigEntry;
+import com.github.thedeathlycow.simple.config.entry.ConfigEntry;
 
-import java.io.File;
 import java.nio.file.Path;
 
 /**

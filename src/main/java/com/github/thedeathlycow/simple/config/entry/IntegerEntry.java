@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.simple.config.key;
+package com.github.thedeathlycow.simple.config.entry;
 
 import org.jetbrains.annotations.NotNull;
 

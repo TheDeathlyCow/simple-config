@@ -4,35 +4,36 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 /**
- * A config key is an entry in a config. It has a name, type, and default
- * value. The default value will be the value set for this key when it is
+ * A config entry is a key:pair relationship in a config. It has a name, type, and default
+ * value. The default value will be the value set for this entry when it is
  * added to a config, but is not necessarily always going to be the value
- * for this key in that config.
+ * for this entry in that config.
  * <p>
  * This class provides methods for deserializing JSON objects into the type
- * that the key stores as well as for determining the validity of the type.
+ * that the entry stores as well as for determining the validity of the type.
  * Validity must be implemented by concrete subclasses.
  * <p>
  * Important: equals() and hashCode() for this object is based solely on
  * its name, as it is meant to function like an in-memory JSON key.
  *
- * @param <T> The type that this key stores in a config.
+ * @param <T> The type that this entry stores in a config.
  * @author TheDeathlyCow
  */
 public abstract class ConfigEntry<T> {
 
     /**
-     * Constructs a config key with a name, default value, and type.
+     * Constructs a config entry with a name, default value, and type.
      *
-     * @param name         Name of the config key.
-     * @param defaultValue Default value of the key in a config.
-     * @param type         The type of the value.
+     * @param name         Name of the config entry.
+     * @param defaultValue Default value of the entry in a config.
+     * @param type         The type of the value. May be null.
      */
-    public ConfigEntry(@NotNull String name, @NotNull T defaultValue, @NotNull Class<T> type) {
+    public ConfigEntry(@NotNull String name, @NotNull T defaultValue, @Nullable Class<T> type) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.type = type;
@@ -48,13 +49,13 @@ public abstract class ConfigEntry<T> {
         return defaultValue;
     }
 
-    @NotNull
+    @Nullable
     public Class<T> getType() {
         return type;
     }
 
     /**
-     * Deserializes a json element into this key's type.
+     * Deserializes a json element into this entry's type.
      * Does NOT check for validity.
      *
      * @param jsonElement JSON element to deserialize
@@ -63,11 +64,11 @@ public abstract class ConfigEntry<T> {
      *                                             json element is not a valid representation of T.
      */
     public T deserialize(JsonElement jsonElement) {
-        return GSON.fromJson(jsonElement, getType());
+        return GSON.fromJson(jsonElement, this.getType());
     }
 
     /**
-     * Determines if the value is valid for this key.
+     * Determines if the value is valid for this entry.
      *
      * @param value Value to check.
      * @return Returns a boolean representing whether value is valid.
@@ -75,10 +76,10 @@ public abstract class ConfigEntry<T> {
     public abstract boolean isValid(T value);
 
     /**
-     * Two config keys are equal if and only if their names match.
+     * Two config entries are equal if and only if their names match.
      *
-     * @param o Other config key.
-     * @return Returns a boolean representing if the two keys are equal.
+     * @param o Other config entry.
+     * @return Returns a boolean representing if the two entries are equal.
      */
     @Override
     public boolean equals(Object o) {
@@ -89,9 +90,9 @@ public abstract class ConfigEntry<T> {
     }
 
     /**
-     * Hashes a config key using the config key's name.
+     * Hashes a config entry using the config entry's name.
      *
-     * @return Returns the hash code of this config key.
+     * @return Returns the hash code of this config entry.
      */
     @Override
     public int hashCode() {
@@ -100,7 +101,7 @@ public abstract class ConfigEntry<T> {
 
     @Override
     public String toString() {
-        return "ConfigKey{" +
+        return "ConfigEntry{" +
                 "name='" + name + '\'' +
                 ", defaultValue=" + defaultValue +
                 ", type=" + type +
@@ -113,7 +114,7 @@ public abstract class ConfigEntry<T> {
     @NotNull
     private final T defaultValue;
 
-    @NotNull
+    @Nullable
     private final Class<T> type;
 
     private static final Gson GSON = new GsonBuilder()

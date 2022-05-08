@@ -2,13 +2,11 @@ package com.github.thedeathlycow.simple.config.entry.collection;
 
 import com.github.thedeathlycow.simple.config.Config;
 import com.github.thedeathlycow.simple.config.ConfigFactory;
-import com.github.thedeathlycow.simple.config.entry.collection.CollectionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

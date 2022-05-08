@@ -136,7 +136,7 @@ public abstract class ConfigEntry<T> {
     @Nullable
     private final Class<T> type;
 
-    private static final Gson GSON = new GsonBuilder()
+    protected static final Gson GSON = new GsonBuilder()
             .create();
 
 }

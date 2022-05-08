@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.simple.config.entry;
+package com.github.thedeathlycow.simple.config.entry.collection;
 
 import com.github.thedeathlycow.simple.config.Config;
 import com.github.thedeathlycow.simple.config.ConfigFactory;
@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CollectionEntryTest {
 
     private List<Integer> ints;
-    private CollectionEntry<Integer> integerCollectionEntry;
+    private ListEntry<Integer> integerCollectionEntry;
     private Config config;
 
     @BeforeEach
     public void setup() {
         this.ints = List.of(1, 2, 3, 4);
-        this.integerCollectionEntry = new CollectionEntry<>("ints", ints, Integer.class);
+        this.integerCollectionEntry = new ListEntry<>("ints", ints, Integer.class, ArrayList::new);
         this.config = ConfigFactory.createConfigWithKeys(
                 "test", "temp", Paths.get("."),
                 integerCollectionEntry
@@ -32,7 +32,7 @@ class CollectionEntryTest {
     @Test
     public void castedListDoesNotThrow() {
         assertDoesNotThrow(() -> {
-            Collection<Integer> ints = this.config.get(integerCollectionEntry);
+            List<Integer> ints = this.config.get(integerCollectionEntry);
         });
     }
 

@@ -4,7 +4,6 @@ import com.github.thedeathlycow.simple.config.entry.ConfigEntry;
 import com.google.gson.JsonElement;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -13,32 +12,20 @@ import java.util.Collections;
  * and deserialization for collections.
  *
  * @param <T> The type of the objects stored in the collection.
+ * @param <C> The type of collection of T that this entry uses.
  */
-public class CollectionEntry<T> extends ConfigEntry<Collection<T>> {
+public class CollectionEntry<T, C extends Collection<T>> extends ConfigEntry<C> {
 
     /**
-     * Constructs a config entry with a name, default value, type, and deserializer.
-     * Sets the collection creator to be ArrayList::new.
-     *
-     * @param name         Name of the config entry.
-     * @param defaultValue Default value of the entry in a config.
-     * @param type         The type of the elements of the collection. May not be null.
-     */
-    public CollectionEntry(@NotNull String name, @NotNull Collection<T> defaultValue, @NotNull Class<T> type) {
-        this(name, defaultValue, type, ArrayList::new);
-    }
-
-    /**
-     * Constructs a collection entry with a name, default value, type, new collection creator, and deserializer.
+     * Constructs a collection entry with a name, default value, type, and a new collection creator.
      *
      * @param name              Name of the collection entry.
      * @param defaultValue      Default value of the entry in a config.
      * @param type              The type of the elements of the collection. May not be null.
      * @param collectionCreator Factory for creating new collection
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public CollectionEntry(@NotNull String name, @NotNull Collection<T> defaultValue, @NotNull Class<T> type, @NotNull CollectionEntry.CollectionCreator<T> collectionCreator) {
-        super(name, defaultValue, (Class) Collection.class);
+    public CollectionEntry(@NotNull String name, @NotNull C defaultValue, @NotNull Class<T> type, @NotNull Class<C> collectionType, @NotNull CollectionCreator<T, C> collectionCreator) {
+        super(name, defaultValue, collectionType);
         this.collectionType = type;
         this.collectionCreator = collectionCreator;
     }
@@ -54,7 +41,7 @@ public class CollectionEntry<T> extends ConfigEntry<Collection<T>> {
      *                                             json element is not a valid representation of T.
      */
     @Override
-    public Collection<T> deserialize(JsonElement jsonElement) {
+    public C deserialize(JsonElement jsonElement) {
         if (jsonElement.isJsonArray()) {
             return deserializeIterable(jsonElement.getAsJsonArray());
         } else {
@@ -84,7 +71,7 @@ public class CollectionEntry<T> extends ConfigEntry<Collection<T>> {
      * @return Returns true.
      */
     @Override
-    public boolean isValid(Collection<T> value) {
+    public boolean isValid(C value) {
         return true;
     }
 
@@ -95,8 +82,8 @@ public class CollectionEntry<T> extends ConfigEntry<Collection<T>> {
      *
      * @param <T>
      */
-    public interface CollectionCreator<T> {
-        Collection<T> create();
+    public interface CollectionCreator<T, C extends Collection<T>> {
+        C create();
     }
 
     /**
@@ -105,8 +92,8 @@ public class CollectionEntry<T> extends ConfigEntry<Collection<T>> {
      * @param iterable Iterable of JSON elements to deserialize
      * @return Returns the {@link Collection} of T that <code>iterable</code> represents.
      */
-    private Collection<T> deserializeIterable(Iterable<JsonElement> iterable) {
-        Collection<T> deserialized = this.collectionCreator.create();
+    private C deserializeIterable(Iterable<JsonElement> iterable) {
+        C deserialized = this.collectionCreator.create();
         for (JsonElement elem : iterable) {
             deserialized.add(deserializeElement(elem));
         }
@@ -114,5 +101,5 @@ public class CollectionEntry<T> extends ConfigEntry<Collection<T>> {
     }
 
     private final Class<T> collectionType;
-    private final CollectionCreator<T> collectionCreator;
+    private final CollectionCreator<T, C> collectionCreator;
 }

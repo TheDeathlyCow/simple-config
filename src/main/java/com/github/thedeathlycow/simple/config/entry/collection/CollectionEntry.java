@@ -14,7 +14,7 @@ import java.util.Collections;
  * @param <T> The type of the objects stored in the collection.
  * @param <C> The type of collection of T that this entry uses.
  */
-public class CollectionEntry<T, C extends Collection<T>> extends ConfigEntry<C> {
+public abstract class CollectionEntry<T, C extends Collection<T>> extends ConfigEntry<C> {
 
     /**
      * Constructs a collection entry with a name, default value, type, and a new collection creator.

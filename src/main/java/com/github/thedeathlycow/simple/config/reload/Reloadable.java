@@ -35,6 +35,7 @@ public class Reloadable {
      * If an error is found, logs it and returns.
      */
     public void onReload() {
+        reloads.reset();
         File configFile = reloads.getLocation();
         JsonObject json;
         try (FileReader reader = new FileReader(configFile)) {

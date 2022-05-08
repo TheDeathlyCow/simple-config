@@ -45,7 +45,7 @@ public class Config {
     public <T> T get(ConfigEntry<T> entry) {
         if (this.values.containsKey(entry)) {
             Object value = this.values.get(entry);
-            return entry.getType().cast(value);
+            return entry.adapt(value);
         } else {
             throw new IllegalArgumentException("Cannot get value of " + entry + " as it does not exist in config");
         }

@@ -49,9 +49,28 @@ public abstract class ConfigEntry<T> {
         return defaultValue;
     }
 
+    /**
+     * @return Gets the class of the object stored in this entry.
+     */
     @Nullable
-    public Class<T> getType() {
+    protected Class<T> getType() {
         return type;
+    }
+
+    /**
+     * Adapts an object into an instance of T.
+     *
+     * @param obj Object to adapt
+     * @return Returns object as an instance of T.
+     * @throws IllegalStateException Thrown if type is null.
+     * @throws ClassCastException Thrown if object is not an instance of T.
+     */
+    public T adapt(Object obj) {
+        Class<T> type = this.getType();
+        if (type == null) {
+            throw new IllegalStateException("Adapt must be overridden if type is null!");
+        }
+        return type.cast(obj);
     }
 
     /**

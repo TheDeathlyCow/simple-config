@@ -1,5 +1,6 @@
-package com.github.thedeathlycow.simple.config.entry;
+package com.github.thedeathlycow.simple.config.entry.collection;
 
+import com.github.thedeathlycow.simple.config.entry.ConfigEntry;
 import com.google.gson.JsonElement;
 import org.jetbrains.annotations.NotNull;
 

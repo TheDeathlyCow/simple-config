@@ -2,10 +2,6 @@ package com.github.thedeathlycow.simple.config;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class IdentifierTest {

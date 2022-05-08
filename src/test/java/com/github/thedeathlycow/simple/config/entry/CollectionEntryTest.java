@@ -2,6 +2,7 @@ package com.github.thedeathlycow.simple.config.entry;
 
 import com.github.thedeathlycow.simple.config.Config;
 import com.github.thedeathlycow.simple.config.ConfigFactory;
+import com.github.thedeathlycow.simple.config.entry.collection.CollectionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

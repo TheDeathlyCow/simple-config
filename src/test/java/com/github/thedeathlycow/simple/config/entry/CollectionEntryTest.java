@@ -7,49 +7,50 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ListEntryTest {
+class CollectionEntryTest {
 
     private List<Integer> ints;
-    private ListEntry<Integer> integerListEntry;
+    private CollectionEntry<Integer> integerCollectionEntry;
     private Config config;
 
     @BeforeEach
     public void setup() {
         this.ints = List.of(1, 2, 3, 4);
-        this.integerListEntry = new ListEntry<>("ints", ints, Integer.class);
+        this.integerCollectionEntry = new CollectionEntry<>("ints", ints, Integer.class);
         this.config = ConfigFactory.createConfigWithKeys(
                 "test", "temp", Paths.get("."),
-                integerListEntry
+                integerCollectionEntry
         );
     }
 
     @Test
     public void castedListDoesNotThrow() {
         assertDoesNotThrow(() -> {
-            List<Integer> ints = this.config.get(integerListEntry);
+            Collection<Integer> ints = this.config.get(integerCollectionEntry);
         });
     }
 
     @Test
     public void returnedListIsCorrectValue() {
-        assertEquals(this.ints, this.config.get(integerListEntry));
+        assertEquals(this.ints, this.config.get(integerCollectionEntry));
     }
 
     @Test
     public void listWithMoreValuesNotEqual() {
         List<Integer> randomInts = new ArrayList<>(this.ints);
         randomInts.add(5);
-        assertNotEquals(randomInts, this.config.get(integerListEntry));
+        assertNotEquals(randomInts, this.config.get(integerCollectionEntry));
     }
 
     @Test
     public void listWithDiffernetValuesNotEqual() {
         List<Integer> randomInts = new ArrayList<>(this.ints);
         randomInts.set(0, -1);
-        assertNotEquals(randomInts, this.config.get(integerListEntry));
+        assertNotEquals(randomInts, this.config.get(integerCollectionEntry));
     }
 }

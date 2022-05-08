@@ -31,9 +31,9 @@ public abstract class ConfigEntry<T> {
      *
      * @param name         Name of the config entry.
      * @param defaultValue Default value of the entry in a config.
-     * @param type         The type of the value. May be null.
+     * @param type         The type of the value. May not be null.
      */
-    public ConfigEntry(@NotNull String name, @NotNull T defaultValue, @Nullable Class<T> type) {
+    public ConfigEntry(@NotNull String name, @NotNull T defaultValue, @NotNull Class<T> type) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.type = type;
@@ -52,7 +52,7 @@ public abstract class ConfigEntry<T> {
     /**
      * @return Gets the class of the object stored in this entry.
      */
-    @Nullable
+    @NotNull
     protected Class<T> getType() {
         return type;
     }
@@ -66,11 +66,7 @@ public abstract class ConfigEntry<T> {
      * @throws ClassCastException Thrown if object is not an instance of T.
      */
     public T adapt(Object obj) {
-        Class<T> type = this.getType();
-        if (type == null) {
-            throw new IllegalStateException("Adapt must be overridden if type is null!");
-        }
-        return type.cast(obj);
+        return this.getType().cast(obj);
     }
 
     /**
@@ -133,7 +129,7 @@ public abstract class ConfigEntry<T> {
     @NotNull
     private final T defaultValue;
 
-    @Nullable
+    @NotNull
     private final Class<T> type;
 
     protected static final Gson GSON = new GsonBuilder()
